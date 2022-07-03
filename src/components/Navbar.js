@@ -7,7 +7,16 @@ import Logo from "../assets/images/Logo.png";
 
 const Navbar = () => {
   return (
-    <Stack className="imgLogo">
+    <Stack
+      direction="row"
+      justifyContent="space-around"
+      sx={{
+        gap: { sm: "122px", xs: "40px" },
+        mt: { sm: "32px", xs: "20px" },
+        justifyContent: "none",
+      }}
+      px="10px"
+    >
       <Link to="/">
         <img
           src={Logo}
@@ -15,6 +24,26 @@ const Navbar = () => {
           style={{ width: "48px", height: "48px", margin: "0 20px" }}
         />
       </Link>
+      <Stack direction="row" gap="40px" fontSize="24px" alingItems="flex-end">
+        {/* Adding home link  */}
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+            color: "#3A1212",
+            borderBottom: "3px solid #FF2625",
+          }}
+        >
+          Home
+        </Link>
+        {/* Adding exercises link  */}
+        <a
+          href="#exercises"
+          style={{ textDecoration: "none", color: "#3A1212" }}
+        >
+          Exercieses
+        </a>
+      </Stack>
     </Stack>
   );
 };
