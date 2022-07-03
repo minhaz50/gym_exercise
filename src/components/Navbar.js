@@ -24,14 +24,20 @@ const Navbar = () => {
           style={{ width: "48px", height: "48px", margin: "0 20px" }}
         />
       </Link>
-      <Stack direction="row" gap="40px" fontSize="24px" alingItems="flex-end">
+      <Stack
+        direction="row"
+        gap="40px"
+        fontFamily="Alegreya"
+        fontSize="24px"
+        alingItems="flex-end"
+      >
         {/* Adding home link  */}
         <Link
           to="/"
           style={{
             textDecoration: "none",
             color: "#3A1212",
-            borderBottom: "3px solid #FF2625",
+            borderTop: "3px solid #FF2625",
           }}
         >
           Home
