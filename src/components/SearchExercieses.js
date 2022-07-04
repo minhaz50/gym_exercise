@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 
+import { exerciseOptions, fetchData } from "../utilities/importData";
+import HorizontalScrollbar from "./HorizontalScrollbar";
+
 const SearchExercieses = () => {
+  const [search, setSearch] = useState("");
+  const [exercises, setExervises] = useState([]);
+  const [bodyParts, setBodyParts] = useState([]);
+
+  useEffect(() => {
+    const fetchExercisesData = async () => {
+      const bodyPartData = await fetchData(
+        "https://exercisedb.p.rapidapi.com/exercises/bodyPartList/bodyPartList",
+        exerciseOptions
+      );
+      setBodyParts(["all", ...bodyPartData]);
+    };
+    fetchExercisesData();
+  }, []);
+
+  const handleSearch = async () => {
+    if (search) {
+      const exercisesData = await fetchData(
+        "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
+        exerciseOptions
+      );
+      // console.log(exercisesData);
+      const searchedExercises = exercisesData.filter(
+        (exercise) =>
+          exercise.name.toLocaleLowerCase().includes(search) ||
+          exercise.target.toLocaleLowerCase().includes(search) ||
+          exercise.equipment.toLocaleLowerCase().includes(search) ||
+          exercise.bodyPart.toLocaleLowerCase().includes(search)
+      );
+      setSearch("");
+      setExervises(searchedExercises);
+    }
+  };
   return (
     <Stack alignItems="center" mt="40px" justifyContent="center" p="20px">
       <Typography
@@ -24,8 +60,8 @@ const SearchExercieses = () => {
             borderRadius: "40px",
           }}
           height="76px"
-          value=""
-          onChange={(e) => {}}
+          value={search}
+          onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
           placeholder="Search Exercises"
           type="text"
         />
@@ -41,9 +77,13 @@ const SearchExercieses = () => {
             position: "absolute",
             right: "0",
           }}
+          onClick={handleSearch}
         >
           Search
         </Button>
+      </Box>
+      <Box sx={{ position: "relative", width: "100%", p: "20px" }}>
+        <HorizontalScrollbar data={bodyParts} />
       </Box>
     </Stack>
   );
